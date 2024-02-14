@@ -1,7 +1,7 @@
 import pygame as pg
 import moderngl as mgl
 import sys
-from cube import *
+from triangle import *
 
 
 class GraphicsEngine:
@@ -14,7 +14,8 @@ class GraphicsEngine:
         pg.display.set_mode(self.WIN_SIZE, flags=pg.OPENGL | pg.DOUBLEBUF)
         self.ctx = mgl.create_context()
         self.clock = pg.time.Clock()
-        self.scene = Cube(self)
+        # Définit une scène :
+        self.scene = Triangle(self)
 
     def check_events(self):
         """
@@ -22,7 +23,7 @@ class GraphicsEngine:
         """
         for event in pg.event.get():
             if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
-                self.scene.destroy()
+                self.scene.destroy()     # on supprime les objets
                 pg.quit()
                 sys.exit()
 
@@ -31,7 +32,7 @@ class GraphicsEngine:
         Fonction de rendu
         """
         self.ctx.clear(color=(0.08, 0.16, 0.17))
-        self.scene.render()
+        self.scene.render() # Rendu de la scene
         pg.display.flip()
 
     def run(self):

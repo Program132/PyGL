@@ -1,6 +1,15 @@
 import numpy as np
 
 
+# OpenGL Rendering :
+# On fournit des vertices, des points pour résumer, ce qui va former un "Vertex Shader"
+# On assemble la forme avec nos 3 points ce qui donne un "Primitive Assembly", ce qui ressemble à un triangle avec des côtés, on connecte les points entre eux.
+# Ensuite on a la "Rasterization", qui va former des "Fragments"
+# Puis on a le fragment shader qui est déterminer avec des TESTS.
+# Cela va être envoyé vers le "FrameBuffer"
+# Enfin, pour avoir le résultat voulu le vertexshader et le fragmentshader vont s'unir pour avoir des "Uniforms Variables"
+
+
 class Triangle:
     def __init__(self, app):
         self.app = app
@@ -14,11 +23,13 @@ class Triangle:
         Renvoit les données du vertex shader, ici les points et leur positions
         """
         data = [
-            (-0.6, -0.8, 0.0),
-            (0.6, -0.8, 0.0),
-            (0.0, 0.8, 0.0)
+            #  x    y     z
+            (-0.6, -0.8, 0.0),  # bas gauche
+            (0.6, -0.8, 0.0),  # en haut
+            (0.0, 0.8, 0.0)  # bas droit
         ]
-        data = np.array(data, dtype='f4')
+        # Ici on le fait en 2D, voilà pourquoi en Z on a 0.0
+        data = np.array(data, dtype='f4')  # on peut mettre 'f4' à la place de 'np.float32'
         return data
 
     def get_vbo(self):  # Vertex Buffer Object
@@ -48,6 +59,8 @@ class Triangle:
         Renvoit le Vertex Array Object qui va unir le VBO et les Shader Program
         """
         vao = self.ctx.vertex_array(self.shader_program, [(self.vbo, '3f', 'in_position')])
+        # 3f est le format du buffer
+        # in_position est l'attribut -> x1,y1,z1
         return vao
 
     def render(self):
