@@ -15,7 +15,7 @@ class GraphicsEngine:
         pg.display.set_mode(self.WIN_SIZE, flags=pg.OPENGL | pg.DOUBLEBUF)
         self.ctx = mgl.create_context()
         self.clock = pg.time.Clock()
-        self.time = 0
+        # Camera
         self.camera = Camera(self)
         self.scene = Cube(self)
 
@@ -37,12 +37,8 @@ class GraphicsEngine:
         self.scene.render()
         pg.display.flip()
 
-    def get_time(self):
-        self.time = pg.time.get_ticks() * 0.001
-
     def run(self):
         while True:
-            self.get_time()
             self.check_events()
             self.render()
             self.clock.tick(60)

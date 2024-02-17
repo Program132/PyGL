@@ -48,8 +48,17 @@ class Triangle:
         with open(f'shaders/{shader_name}.frag') as f:
             fragment = f.read()
 
+        # '#version 330 core' indique que le code est écrit selon la version 330 du langage GLSL.
+        # 'layout (location = 0) out vec4 fragColor;' spécifie que la sortie de ce shader est une couleur RGBA (rouge, vert, bleu, alpha), qui sera utilisée comme couleur du fragment final.
+        # 'main()' est la fonction principale du shader de fragment, qui calcule la couleur du fragment. Dans ce cas, elle définit une couleur rouge (1,0,0) et l'assigne à fragColor.
+
         with open(f'shaders/{shader_name}.vert') as f:
             vertex = f.read()
+
+        # '#version 330 core' indique la version du langage GLSL utilisée.
+        # 'layout (location = 0) in vec3 in_position;' spécifie que l'entrée de ce shader est une position à trois dimensions.
+        # 'main()' est la fonction principale du shader de vertex, qui transforme les coordonnées du sommet en coordonnées de l'écran en utilisant la matrice de projection.
+        # 'gl_Position = vec4(in_position, 1.0);' assigne les coordonnées du sommet transformées à la variable prédéfinie gl_Position, qui est utilisée pour déterminer la position du sommet à l'écran.
 
         program = self.ctx.program(vertex_shader=vertex, fragment_shader=fragment)
         return program

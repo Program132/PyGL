@@ -16,21 +16,22 @@ class Cube:
         """
         Renvoit les données du vertex shader, ici les points et leur positions
         """
+
         vertices = [
             # Face de devant
-            (-1, -1, -1), (1, -1, 1), (1, 1, 1), (-1, 1, 1),
+            (-1, -1, 1), (1, -1, 1), (1, 1, 1), (-1, 1, 1),
             # Face à l'arrière
             (-1, 1, -1), (-1, -1, -1), (1, -1, -1), (1, 1, -1)
         ]
 
         indices = [
             # Par défaut OpenGL décrit les vertices "counterclockwise",
-            (0,2,3),(0,1,2),
-            (1,7,2), (1,6,7),
-            (6,5,4), (4,7,6),
-            (3,4,5), (3,5,0),
-            (3,7,4), (3,2,7),
-            (0,6,1), (0,5,6)
+            (0, 2, 3), (0, 1, 2),
+            (1, 7, 2), (1, 6, 7),
+            (6, 5, 4), (4, 7, 6),
+            (3, 4, 5), (3, 5, 0),
+            (3, 7, 4), (3, 2, 7),
+            (0, 6, 1), (0, 5, 6)
         ]
 
         vertex_data = self.get_data(vertices, indices)
@@ -72,7 +73,7 @@ class Cube:
 
     def render(self):
         """
-        Rendu du triangle
+        Rendu du cube
         """
         self.vao.render()
 

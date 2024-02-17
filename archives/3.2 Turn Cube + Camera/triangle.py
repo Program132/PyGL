@@ -1,42 +1,25 @@
 import numpy as np
-import glm
 
 
-class Cube:
+class Triangle:
     def __init__(self, app):
         self.app = app
         self.ctx = app.ctx
         self.vbo = self.get_vbo()
         self.shader_program = self.get_shader_program("default")
         self.vao = self.get_vao()
-        self.m_model = self.get_model_matrix()
-        self.on_init()
 
     def get_vertex_data(self):
         """
         Renvoit les données du vertex shader, ici les points et leur positions
         """
-        vertices = [
-            (-1, -1, 1), (1, -1, 1), (1, 1, 1), (-1, 1, 1),
-            (-1, 1, -1), (-1, -1, -1), (1, -1, -1), (1, 1, -1)
+        data = [
+            (-0.6, -0.8, 0.0),
+            (0.6, -0.8, 0.0),
+            (0.0, 0.8, 0.0)
         ]
-
-        indices = [
-            (0, 2, 3), (0, 1, 2),
-            (1, 7, 2), (1, 6, 7),
-            (6, 5, 4), (4, 7, 6),
-            (3, 4, 5), (3, 5, 0),
-            (3, 7, 4), (3, 2, 7),
-            (0, 6, 1), (0, 5, 6)
-        ]
-
-        vertex_data = self.get_data(vertices, indices)
-        return vertex_data
-
-    @staticmethod
-    def get_data(vertices, indices):
-        data = [vertices[ind] for triangle in indices for ind in triangle]
-        return np.array(data, dtype='f4')
+        data = np.array(data, dtype='f4')
+        return data
 
     def get_vbo(self):  # Vertex Buffer Object
         """
@@ -67,15 +50,10 @@ class Cube:
         vao = self.ctx.vertex_array(self.shader_program, [(self.vbo, '3f', 'in_position')])
         return vao
 
-    def update(self):
-        m_model = glm.rotate(self.m_model, self.app.time, glm.vec3(0, 1, 0))
-        self.shader_program["m_model"].write(m_model)
-
     def render(self):
         """
-        Rendu du cube
+        Rendu du triangle
         """
-        self.update()
         self.vao.render()
 
     def destroy(self):
@@ -85,18 +63,3 @@ class Cube:
         self.vbo.release()
         self.shader_program.release()
         self.vao.release()
-
-    def get_model_matrix(self):
-        """
-        Renvoie la matrix d'identité 4
-        """
-        m_model = glm.mat4()
-        return m_model
-
-    def on_init(self):
-        """
-        Passe la projection de la camera vers le shader
-        """
-        self.shader_program['m_proj'].write(self.app.camera.m_proj)
-        self.shader_program['m_view'].write(self.app.camera.m_view)
-        self.shader_program['m_model'].write(self.m_model)
